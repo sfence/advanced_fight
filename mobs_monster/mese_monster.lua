@@ -15,6 +15,10 @@ local function mese_monster_wing_on_update(self, obj, hit_data, value)
 			local collisionbox = props.collisionbox
 			collisionbox[2] = 0.5
 			obj:set_properties({collisionbox = collisionbox})
+			ent.attack_offsets = {
+				punch_offset = vector.new(0, 0.3, 0),
+				target_offset = vector.new(0, 0.55, 0),
+			}
 			ent._advanced_fight_no_fly = true
 			print("Mese monster "..obj:get_guid().." can no longer fly")
 		end
@@ -327,8 +331,8 @@ if ent_def then
 	advanced_fight_lib.mobs.replace_do_punch(ent_def)
 
 	ent_def.attack_offsets = {
-		punch_offset = vector.new(0, 1.2, 0),
-		target_offset = vector.new(0, 0.5, 0),
+		punch_offset = vector.new(0, 1.3, 0),
+		target_offset = vector.new(0, 1.55, 0),
 	}
 	ent_def._hit_range = ent_def.reach
 end

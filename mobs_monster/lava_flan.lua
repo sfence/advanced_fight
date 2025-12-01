@@ -197,8 +197,8 @@ if ent_def then
 	advanced_fight_lib.mobs.replace_do_punch(ent_def)
 
 	ent_def.attack_offsets = {
-		punch_offset = vector.new(0, 0.4, 0),
-		target_offset = vector.new(0, 0.5, 0),
+		punch_offset = vector.new(0, 0.9, 0),
+		target_offset = vector.new(0, 1.0, 0),
 	}
 	ent_def._hit_range = ent_def.reach
 end

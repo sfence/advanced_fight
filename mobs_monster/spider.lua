@@ -312,7 +312,7 @@ if ent_def then
 
 	ent_def.attack_offsets = {
 		punch_offset = vector.new(0, -0.3, 0),
-		target_offset = vector.new(0, 0, 0),
+		target_offset = vector.new(0, 0.25, 0),
 	}
 	ent_def._hit_range = ent_def.reach
 end

@@ -215,8 +215,8 @@ if ent_def then
 	advanced_fight_lib.mobs.replace_override_arrow(ent_def)
 
 	ent_def.attack_offsets = {
-		punch_offset = vector.new(0, 0.24, 0),
-		target_offset = vector.new(0, 0.5, 0),
+		punch_offset = vector.new(0, 0.54, 0),
+		target_offset = vector.new(0, 0.6, 0),
 	}
 	ent_def._hit_range = ent_def.reach
 end
