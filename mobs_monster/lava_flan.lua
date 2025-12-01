@@ -1,0 +1,204 @@
+local ent_name, ent_def = advanced_fight_lib.get_entity({"mobs_monster:lava_flan"})
+
+local parts = {
+	head = {
+		box = {x_min = -0.33, y_min = 1, z_min = -0.33,
+					 x_max = 0.33, y_max = 1.25, z_max = 0.33},
+		part_of_health = 0.6,
+		damage_multiplier = 1.5,
+		miss_chance = 0.8,
+		miss_chance_angles = {
+			[0] = 0.8,
+			[60] = 0.8,
+			[90] = 0.4,
+			[135] = 0.2,
+			[180] = 0.2,
+		},
+		cb_get_miss_chance = advanced_fight_lib.calculate_get_miss_chance,
+		values = {
+			["mobs:walk_chance"] = {
+					name = "head",
+					threshold_start = 0.2,
+					threshold_peak = 0.8,
+					base_value = 1.0,
+					peak_value = 0.4,
+					over_value = 0.1,
+					curve = 1,
+					value = 1,
+					rule = "multiply",
+					priority = 100,
+				},
+			["mobs:stand_chance"] = {
+					name = "head",
+					threshold_start = 0.2,
+					threshold_peak = 0.8,
+					base_value = 1.0,
+					peak_value = 1.5,
+					over_value = 2.0,
+					curve = 1,
+					value = 1,
+					rule = "multiply",
+					priority = 100,
+				},
+			["mobs:attack_chance"] = {
+					name = "head",
+					threshold_start = 0.2,
+					threshold_peak = 0.8,
+					base_value = 1.0,
+					peak_value = 3.0,
+					over_value = 9.0,
+					curve = 1,
+					value = 1,
+					rule = "multiply",
+					priority = 100,
+				},
+			["mobs:attack_patience"] = {
+					name = "head",
+					threshold_start = 0.2,
+					threshold_peak = 0.8,
+					base_value = 1.0,
+					peak_value = 0.5,
+					over_value = 0.25,
+					curve = 1,
+					value = 1,
+					rule = "multiply",
+					priority = 100,
+				},
+		},
+		effects = {
+			["eye_hit"] = advanced_fight_lib.create_point_hit_effect({
+					points = {
+						{x=0.75, y=0.5},
+						{x=0.25, y=0.5},
+					},
+					points_size = 2/8,
+					points_axis = "z+",
+					points_max_health = 0.5,
+					part_damage_key = "eyes_damage",
+					name = "head",
+					values = {
+						["mobs:view_range"] = {
+								name = "head",
+								part_damage_key = "eyes_damage",
+								cb_calculate_damage = advanced_fight_lib.point_hit_effect_view_range_calculate_damage,
+								threshold_start = 1,
+								threshold_peak = 2,
+								base_value = 1.0,
+								peak_value = 0.3,
+								over_value = 0.2,
+								curve = 1,
+								value = 1,
+								rule = "multiply",
+								priority = 100,
+						},
+				},
+				texture_hit_point = "advanced_fight_lava_flan_hit_eye_%s.png",
+				effects_group_label = "advanced_fight_eye_hit_effects",
+				cb_on_update = advanced_fight_lib.mobs.point_hit_effects_group_on_update,
+			}),
+		},
+		effects_group_label = "advanced_fight_head_hit_effects",
+		on_hit = advanced_fight_lib.entity_on_hit,
+	},
+	mouth = {
+		box = {x_min = -0.42, y_min = 0.5, z_min = -0.42,
+					 x_max = 0.42, y_max = 1, z_max = 0.42},
+		part_of_health = 0.5,
+		damage_multiplier = 0.8,
+		miss_chance = 0.6,
+		miss_chance_angles = {
+			[0] = 0.6,
+			[60] = 0.6,
+			[90] = 0.5,
+			[135] = 0.4,
+			[180] = 0.4,
+		},
+		cb_get_miss_chance = advanced_fight_lib.calculate_get_miss_chance,
+		values = {
+			["mobs:damage"] = {
+					name = "mouth",
+					threshold_start = 0.2,
+					threshold_peak = 0.8,
+					base_value = 1.0,
+					peak_value = 0.4,
+					over_value = 0.2,
+					curve = 1,
+					value = 1,
+					rule = "multiply",
+					priority = 100,
+				},
+			["mobs:reach"] = {
+					name = "mouth",
+					threshold_start = 0.4,
+					threshold_peak = 0.9,
+					base_value = 1.0,
+					peak_value = 0.7,
+					over_value = 0.4,
+					curve = 1,
+					value = 1,
+					rule = "multiply",
+					priority = 100,
+				},
+		},
+		effects = {
+			["tooth_hit"] = advanced_fight_lib.create_point_hit_effect({
+					points = {
+						{x=0.75, y=0.5},
+						{x=0.65, y=0.5},
+						{x=0.45, y=0.5},
+						{x=0.35, y=0.5},
+						{x=0.25, y=0.5},
+					},
+					points_size = 2/8,
+					points_axis = "z+",
+					points_max_health = 2,
+					part_damage_key = "teeth_damage",
+					name = "mouth",
+					values = {
+						["mobs:damage"] = {
+								name = "mouth",
+								part_damage_key = "teeth_damage",
+								cb_calculate_damage = advanced_fight_lib.point_hit_effect_view_range_calculate_damage,
+								threshold_start = 1,
+								threshold_peak = 2,
+								base_value = 0.0,
+								peak_value = 1.0,
+								over_value = 1.1,
+								curve = 1,
+								value = -0.5,
+								rule = "pre_sum",
+								priority = 100,
+						},
+				},
+				texture_hit_point = "advanced_fight_lava_flan_hit_tooth_%s.png^[makealpha:0,255,0",
+				effects_group_label = "advanced_fight_tooth_hit_effects",
+				cb_on_update = advanced_fight_lib.mobs.point_hit_effects_group_on_update,
+			}),
+		},
+		effects_group_label = "advanced_fight_mouth_hit_effects",
+		on_hit = advanced_fight_lib.entity_on_hit,
+	},
+	torso = {
+		box = {x_min = -0.5, y_min = -0.5, z_min = -0.5,
+					 x_max = 0.5, y_max = 0.5, z_max = 0.5},
+		part_of_health = 1,
+		damage_multiplier = 1,
+		values = {},
+		effects_group_label = "advanced_fight_torso_hit_effects",
+		on_hit = advanced_fight_lib.entity_on_hit,
+	}
+}
+
+if ent_def then
+	local hitgroup_name = "mobs_monster:lava_flan"
+	hitboxes_lib.register_hitboxes(hitgroup_name, parts)
+
+	ent_def.hitgroup_name = hitgroup_name
+	advanced_fight_lib.mobs.replace_do_punch(ent_def)
+
+	ent_def.attack_offsets = {
+		punch_offset = vector.new(0, 0.4, 0),
+		target_offset = vector.new(0, 0.5, 0),
+	}
+	ent_def._hit_range = ent_def.reach
+end
