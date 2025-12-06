@@ -71,7 +71,8 @@ local parts = {
 						{x=0.8, y=0.5},
 						{x=0.2, y=0.5},
 					},
-					points_size = 0.2,
+					points_radius = 1/22,
+					points_area = 1/150,
 					points_axis = "z+",
 					points_max_health = 0.5,
 					part_damage_key = "eyes_damage",
@@ -283,36 +284,20 @@ local parts = {
 	}
 }
 
-local parts_attack = {
-	hand_left = {
-		box = {x_min = -0.85, y_min = 0.35, z_min = -0.28,
-					 x_max = -0.6, y_max = 0.8, z_max = 0.65},
-	},
-	hand_right = {
-		box = {x_min = 0.6, y_min = 0.35, z_min = -0.28,
-					 x_max = 0.85, y_max = 0.8, z_max = 0.65},
-	}
-}
-
 if ent_def then
 	local hitgroup_name = "mobs_monster:land_guard"
 	hitboxes_lib.register_hitboxes(hitgroup_name, parts)
-	hitboxes_lib.register_hitboxes(hitgroup_name.."_attack",
-			hitboxes_lib.update_hitgroup_parts(parts, parts_attack))
 
-	ent_def.get_hitgroup_name = function(self)
-		print("Current animation: "..self.animation.current)
-		if self.animation.current == "run" 
-				or self.animation.current == "punch" then
-			return hitgroup_name.."_attack"
-		end
-		return hitgroup_name
-	end
+	ent_def.hitgroup_name = hitgroup_name
 	advanced_fight_lib.mobs.replace_do_punch(ent_def)
 
-	ent_def.attack_offsets = {
+	ent_def._attack_data = {
+		hit_range = ent_def.reach,
+		hit_box = hitboxes_lib.collisionbox_to_box({-0.12, -0.23, -0.12, 0.12, 0.23, 0.12}),
+		hit_area = 0.24*0.46,
 		punch_offset = vector.new(0, 0.9, 0),
 		target_offset = vector.new(0, 1.2, 0),
+		horizontal_inaccuracy = 5,
+		vertical_inaccuracy = 8,
 	}
-	ent_def._hit_range = ent_def.reach
 end

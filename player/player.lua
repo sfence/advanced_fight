@@ -9,6 +9,7 @@ local parts = {
 		part_of_health = 0.8,
 		damage_multiplier = 1.5,
 		heal_multiplier = 0.4,
+		armor_element = "head",
 		miss_chance = 0.7,
 		miss_chance_angles = {
 			[0] = 0.7,
@@ -25,7 +26,8 @@ local parts = {
 					points = {
 						{x=0.65, y=0.415},
 					},
-					points_size = 1/8,
+					points_radius = 1/25,
+					points_area = 1/200,
 					points_axis = "z+",
 					points_max_health = 0.5,
 					part_damage_key = "right_eye_damage",
@@ -53,7 +55,8 @@ local parts = {
 					points = {
 						{x=0.35, y=0.415},
 					},
-					points_size = 1/8,
+					points_radius = 1/25,
+					points_area = 1/200,
 					points_axis = "z+",
 					points_max_health = 0.5,
 					part_damage_key = "left_eye_damage",
@@ -197,6 +200,7 @@ local parts = {
 						opacity_coef = 255,
 						cb_next_time = brain_concussion.effect_visual_sensitivity.cb_next_time,
 						cb_apply_effect = brain_concussion.effect_visual_sensitivity.cb_apply_effect,
+						cb_remove_effect = brain_concussion.effect_visual_sensitivity.cb_remove_effect,
 					},
 					["drop_item"] = {
 						mean_interval = {
@@ -324,7 +328,10 @@ local parts = {
 					},
 				},
 				add_brain_concussion_factor = 0.3,
-				time_per_damage = 31,
+				intensity_per_damage = 0.1,
+				intensity_limit = 1.2,
+				intensity_immune_threshold = 0.1,
+				intensity_half_life_time = 43,
 				add_brain_concussion = brain_concussion.add_brain_concussion_default,
 				cb_add_effect = brain_concussion.add_effects_group_brain_concussion,
 				cb_load_effect = brain_concussion.load_effects_group_brain_concussion,
@@ -332,6 +339,7 @@ local parts = {
 			},
 		},
 		effects_group_label = "advanced_fight_head_hit_effects",
+		cb_get_armor = advanced_fight_lib.player.get_armor,
 		on_hit = advanced_fight_lib.player.on_hit,
 		on_load = advanced_fight_lib.parts.on_load,
 	},
@@ -340,8 +348,10 @@ local parts = {
 					 x_max = 0.22, y_max = 1.25, z_max = 0.12},
 		part_of_health = 1,
 		damage_multiplier = 1,
+		armor_element = "torso",
 		values = {},
 		effects_group_label = "advanced_fight_torso_hit_effects",
+		cb_get_armor = advanced_fight_lib.player.get_armor,
 		on_hit = advanced_fight_lib.player.on_hit,
 	},
 	arm_left = {
@@ -349,6 +359,7 @@ local parts = {
 					 x_max = -0.22, y_max = 1.27, z_max = 0.12},
 		part_of_health = 0.4,
 		damage_multiplier = 0.5,
+		armor_element = "torso",
 		miss_chance = 0.4,
 		miss_chance_angles = {
 			[0] = 0.4,
@@ -361,6 +372,7 @@ local parts = {
 		values = {
 		},
 		effects_group_label = "advanced_fight_hand_left_hit_effects",
+		cb_get_armor = advanced_fight_lib.player.get_armor,
 		on_hit = advanced_fight_lib.player.on_hit,
 	},
 	arm_right = {
@@ -368,6 +380,7 @@ local parts = {
 					 x_max = 0.44, y_max = 1.27, z_max = 0.12},
 		part_of_health = 0.4,
 		damage_multiplier = 0.5,
+		armor_element = "torso",
 		miss_chance = 0.4,
 		miss_chance_angles = {
 			[0] = 0.4,
@@ -380,6 +393,7 @@ local parts = {
 		values = {
 		},
 		effects_group_label = "advanced_fight_hand_right_hit_effects",
+		cb_get_armor = advanced_fight_lib.player.get_armor,
 		on_hit = advanced_fight_lib.player.on_hit,
 	},
 	hand_left = {
@@ -387,6 +401,7 @@ local parts = {
 					 x_max = -0.22, y_max = 1.0, z_max = 0.12},
 		part_of_health = 0.4,
 		damage_multiplier = 0.5,
+		armor_element = "hands",
 		miss_chance = 0.8,
 		miss_chance_angles = {
 			[0] = 0.8,
@@ -408,6 +423,7 @@ local parts = {
 			},
 		},
 		effects_group_label = "advanced_fight_hand_left_hit_effects",
+		cb_get_armor = advanced_fight_lib.player.get_armor,
 		on_hit = advanced_fight_lib.player.on_hit,
 	},
 	hand_right = {
@@ -415,6 +431,7 @@ local parts = {
 					 x_max = 0.44, y_max = 1.0, z_max = 0.12},
 		part_of_health = 0.4,
 		damage_multiplier = 0.5,
+		armor_element = "hands",
 		miss_chance = 0.8,
 		miss_chance_angles = {
 			[0] = 0.8,
@@ -436,6 +453,7 @@ local parts = {
 			},
 		},
 		effects_group_label = "advanced_fight_hand_right_hit_effects",
+		cb_get_armor = advanced_fight_lib.player.get_armor,
 		on_hit = advanced_fight_lib.player.on_hit,
 	},
 	legs = {

@@ -6,6 +6,8 @@ if core.get_modpath("3d_armor") then
 	dofile(dir_path.."/3d_armor.lua")
 end
 
+dofile(dir_path.."/weapons.lua")
+
 dofile(dir_path.."/player.lua")
 
 core.register_on_punchplayer(advanced_fight_lib.player.on_punch)

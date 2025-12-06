@@ -173,7 +173,8 @@ local parts_2_top_eyes = {
 						{x=0.35, z=0.85},
 						{x=0.65, z=0.85},
 					},
-					points_size = 0.25,
+					points_radius = 2/24,
+					points_area = 4/220,
 					points_axis = "y+",
 					points_max_health = 0.5,
 					part_damage_key = "eyes_damage",
@@ -212,7 +213,8 @@ local parts_4_top_eyes = {
 						{x=0.65, z=0.85},
 						{x=0.85, z=0.85},
 					},
-					points_size = 0.14,
+					points_radius = 1/16,
+					points_area = 1/64,
 					points_axis = "y+",
 					points_max_health = 0.5,
 					part_damage_key = "eyes_damage",
@@ -251,7 +253,8 @@ local parts_4_front_eyes = {
 						{x=0.35, y=0.80},
 						{x=0.15, y=0.90},
 					},
-					points_size = 0.08,
+					points_radius = 1/32,
+					points_area = 1/200,
 					points_axis = "z+",
 					points_max_health = 0.5,
 					part_damage_key = "eyes_damage",
@@ -310,9 +313,13 @@ if ent_def then
 	end
 	advanced_fight_lib.mobs.replace_do_punch(ent_def)
 
-	ent_def.attack_offsets = {
+	ent_def._attack_data = {
+		hit_range = ent_def.reach,
+		hit_box = hitboxes_lib.collisionbox_to_box({-0.25, -0.05, -0.25, 0.25, 0.05, 0.25}),
+		hit_area = 0.5*0.1,
 		punch_offset = vector.new(0, -0.3, 0),
 		target_offset = vector.new(0, 0.25, 0),
+		horizontal_inaccuracy = 4,
+		vertical_inaccuracy = 5,
 	}
-	ent_def._hit_range = ent_def.reach
 end

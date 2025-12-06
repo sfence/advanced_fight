@@ -83,7 +83,8 @@ local parts = {
 						{x=0.8, y=0.65},
 						{x=0.2, y=0.65},
 					},
-					points_size = 2/8,
+					points_radius = 1/14,
+					points_area = 0.6/50,
 					points_axis = "z+",
 					points_max_health = 0.5,
 					part_damage_key = "eyes_damage",
@@ -165,7 +166,8 @@ local parts = {
 						{x=0.35, y=0.6},
 						{x=0.25, y=0.6},
 					},
-					points_size = 1/8,
+					points_radius = 1/16,
+					points_area = 0.6/100,
 					points_axis = "z+",
 					points_max_health = 1,
 					part_damage_key = "teeth_damage",
@@ -214,9 +216,13 @@ if ent_def then
 
 	advanced_fight_lib.mobs.replace_override_arrow(ent_def)
 
-	ent_def.attack_offsets = {
+	ent_def._attack_data = {
+		hit_range = ent_def.reach,
+		hit_box = hitboxes_lib.collisionbox_to_box({-0.25, -0.1, -0.25, 0.25, 0.1, 0.25}),
+		hit_area = 0.5*0.2,
 		punch_offset = vector.new(0, 0.54, 0),
 		target_offset = vector.new(0, 0.6, 0),
+		horizontal_inaccuracy = 5,
+		vertical_inaccuracy = 10,
 	}
-	ent_def._hit_range = ent_def.reach
 end

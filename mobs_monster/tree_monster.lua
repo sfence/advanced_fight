@@ -71,7 +71,8 @@ local parts = {
 						{x=0.75, y=0.45},
 						{x=0.35, y=0.45},
 					},
-					points_size = 2/8,
+					points_radius = 1/12,
+					points_area = 1/144,
 					points_axis = "z+",
 					points_max_health = 0.5,
 					part_damage_key = "eyes_damage",
@@ -290,9 +291,13 @@ if ent_def then
 	ent_def.hitgroup_name = hitgroup_name
 	advanced_fight_lib.mobs.replace_do_punch(ent_def)
 
-	ent_def.attack_offsets = {
+	ent_def._attack_data = {
+		hit_range = ent_def.reach,
+		hit_box = hitboxes_lib.collisionbox_to_box({-0.2, -0.1, -0.2, 0.2, 0.1, 0.2}),
+		hit_area = 0.4*0.2,
 		punch_offset = vector.new(0, -0.4, 0),
 		target_offset = vector.new(0, 1.3, 0),
+		horizontal_inaccuracy = 5,
+		vertical_inaccuracy = 10,
 	}
-	ent_def._hit_range = ent_def.reach
 end

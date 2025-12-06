@@ -15,7 +15,7 @@ local function mese_monster_wing_on_update(self, obj, hit_data, value)
 			local collisionbox = props.collisionbox
 			collisionbox[2] = 0.5
 			obj:set_properties({collisionbox = collisionbox})
-			ent.attack_offsets = {
+			ent._attack_data = {
 				punch_offset = vector.new(0, 0.3, 0),
 				target_offset = vector.new(0, 0.55, 0),
 			}
@@ -118,7 +118,8 @@ local parts = {
 						{y=0.7, z=0.5},
 						{y=0.7, z=0.5},
 					},
-					points_size = 2/8,
+					points_radius = 1/16,
+					points_area = 3/200,
 					points_axis = {"x+", "x-"},
 					points_max_health = 0.5,
 					part_damage_key = "eyes_damage",
@@ -330,9 +331,13 @@ if ent_def then
 	end
 	advanced_fight_lib.mobs.replace_do_punch(ent_def)
 
-	ent_def.attack_offsets = {
+	ent_def._attack_data = {
+		hit_range = ent_def.reach,
+		hit_box = hitboxes_lib.collisionbox_to_box({-0.45, -0.2, -0.45, 0.45, 0.2, 0.45}),
+		hit_area = 0.9*0.4,
 		punch_offset = vector.new(0, 1.3, 0),
 		target_offset = vector.new(0, 1.55, 0),
+		horizontal_inaccuracy = 5,
+		vertical_inaccuracy = 7,
 	}
-	ent_def._hit_range = ent_def.reach
 end
